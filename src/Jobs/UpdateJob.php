@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Larva\Bing\Push\Models\BingPush;
 
 /**
@@ -77,8 +78,7 @@ class UpdateJob implements ShouldQueue
             if ($lastErrorCode == 2 || $lastErrorCode == 4) {
                 $this->bingPush->setFailure('ERROR!!! You have exceeded your daily url submission quota.');
             } else {
-                /** @var HttpResponse $response */
-                $response = Bing::push($this->site, $this->token, $this->bingPush->url);
+                $response = Http::asJson()->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
                 if (isset($response['ErrorCode'])) {
                     Cache::put($cacheKey, $response['ErrorCode'], now()->addDays());
                     $this->bingPush->setFailure($response['ErrorCode'] . ':' . $response['Message']);

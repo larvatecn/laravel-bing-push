@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Larva\Bing\Push\Models\BingPush;
 
 /**
@@ -84,7 +85,7 @@ class PushJob implements ShouldQueue
             }
         } else {
             try {
-                $response = Bing::push($this->site, $this->token, $this->bingPush->url);
+                $response = Http::asJson()->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
                 if (isset($response['ErrorCode'])) {
                     Cache::put(static::CACHE_KEY, $response['ErrorCode'], now()->addHours());
                     $this->bingPush->setFailure($response['ErrorCode'] . ':' . $response['Message']);
