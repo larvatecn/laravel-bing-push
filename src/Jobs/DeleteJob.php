@@ -73,7 +73,9 @@ class DeleteJob implements ShouldQueue
     public function handle()
     {
         try {
-            Http::asJson()->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
+            Http::acceptJson()
+                ->asJson()
+                ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

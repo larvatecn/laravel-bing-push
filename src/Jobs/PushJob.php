@@ -85,7 +85,9 @@ class PushJob implements ShouldQueue
             }
         } else {
             try {
-                $response = Http::asJson()->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
+                $response = Http::acceptJson()
+                    ->asJson()
+                    ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
                 if (isset($response['ErrorCode'])) {
                     Cache::put(static::CACHE_KEY, $response['ErrorCode'], now()->addHours());
                     $this->bingPush->setFailure($response['ErrorCode'] . ':' . $response['Message']);

@@ -78,7 +78,9 @@ class BatchPushJob implements ShouldQueue
     public function handle()
     {
         try {
-            $response = Http::asJson()->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey={$this->token}", ['siteUrl' => $this->site, 'urlList' => $this->urls]);
+            $response = Http::acceptJson()
+                ->asJson()
+                ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey={$this->token}", ['siteUrl' => $this->site, 'urlList' => $this->urls]);
             if (isset($response['ErrorCode'])) {
                 BingPush::batchSetFailure($this->ids, $response['ErrorCode'] . ':' . $response['Message']);
             } else {

@@ -78,7 +78,9 @@ class UpdateJob implements ShouldQueue
             if ($lastErrorCode == 2 || $lastErrorCode == 4) {
                 $this->bingPush->setFailure('ERROR!!! You have exceeded your daily url submission quota.');
             } else {
-                $response = Http::asJson()->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
+                $response = Http::acceptJson()
+                    ->asJson()
+                    ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
                 if (isset($response['ErrorCode'])) {
                     Cache::put($cacheKey, $response['ErrorCode'], now()->addDays());
                     $this->bingPush->setFailure($response['ErrorCode'] . ':' . $response['Message']);
