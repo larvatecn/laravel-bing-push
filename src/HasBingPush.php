@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\Bing\Push;
@@ -24,13 +23,13 @@ trait HasBingPush
     protected static function bootHasBingPush(): void
     {
         static::created(function ($model) {
-            BingPush::push($model->link);
+            BingPush::push($model->url);
         });
         static::updated(function ($model) {
-            BingPush::update($model->link);
+            BingPush::update($model->url);
         });
         static::deleted(function ($model) {
-            BingPush::delete($model->link);
+            BingPush::delete($model->url);
         });
     }
 }
