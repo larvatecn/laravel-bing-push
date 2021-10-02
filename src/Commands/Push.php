@@ -23,7 +23,7 @@ class Push extends Command
      *
      * @var string
      */
-    protected $signature = 'bing:push';
+    protected $signature = 'push:bing';
 
     /**
      * The console command description.

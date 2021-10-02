@@ -23,7 +23,7 @@ class PushRetry extends Command
      *
      * @var string
      */
-    protected $signature = 'bing:push-retry';
+    protected $signature = 'push:bing-retry';
 
     /**
      * The console command description.

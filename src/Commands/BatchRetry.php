@@ -22,7 +22,7 @@ class BatchRetry extends Command
      *
      * @var string
      */
-    protected $signature = 'bing:batch-retry';
+    protected $signature = 'push:bing-batch-retry';
 
     /**
      * The console command description.
