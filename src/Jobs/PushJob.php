@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Bing\Push\Jobs;
@@ -25,7 +25,7 @@ class PushJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    const CACHE_KEY = 'BingPush:ErrorCode';
+    public const CACHE_KEY = 'BingPush:ErrorCode';
 
     /**
      * 任务可以尝试的最大次数。
@@ -78,7 +78,7 @@ class PushJob implements ShouldQueue
         if (in_array($lastErrorCode, [2, 4, 5, 17])) {
             if ($lastErrorCode == 4) {
                 $this->bingPush->setFailure('ERROR!!! ThrottleUser');
-            } else if ($lastErrorCode == 17) {
+            } elseif ($lastErrorCode == 17) {
                 $this->bingPush->setFailure('ERROR!!! ThrottleIP');
             } else {
                 $this->bingPush->setFailure('ERROR!!! You have exceeded your daily url submission quota.');

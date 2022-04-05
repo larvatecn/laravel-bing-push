@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBingPushTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBingPushTable extends Migration
      */
     public function up()
     {
-        Schema::create('bing_push', function (Blueprint $table) {
+        Schema::create('bing_pushes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('url')->unique();
             $table->tinyInteger('status')->default(0)->nullable()->index();
@@ -31,6 +31,6 @@ class CreateBingPushTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bing_push');
+        Schema::dropIfExists('bing_pushes');
     }
-}
+};

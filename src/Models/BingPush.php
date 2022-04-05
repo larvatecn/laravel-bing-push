@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Bing\Push\Models;
@@ -28,11 +28,11 @@ use Illuminate\Support\Facades\Date;
  */
 class BingPush extends Model
 {
-    const UPDATED_AT = null;
+    public const UPDATED_AT = null;
 
-    const STATUS_PENDING = 0b0;//待推送
-    const STATUS_SUCCESS = 0b1;//正常
-    const STATUS_FAILURE = 0b10;//失败
+    public const STATUS_PENDING = 0b0;//待推送
+    public const STATUS_SUCCESS = 0b1;//正常
+    public const STATUS_FAILURE = 0b10;//失败
 
     /**
      * 与模型关联的数据表。

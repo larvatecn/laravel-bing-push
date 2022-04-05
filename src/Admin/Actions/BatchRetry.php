@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Bing\Push\Admin\Actions;
@@ -15,6 +15,7 @@ use Larva\Bing\Push\Models\BingPush;
 
 /**
  * 批量重试选中
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 class BatchRetry extends BatchAction

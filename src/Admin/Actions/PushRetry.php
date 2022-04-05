@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Bing\Push\Admin\Actions;
@@ -15,6 +15,7 @@ use Larva\Bing\Push\Models\BingPush;
 
 /**
  * 点击重试
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 class PushRetry extends RowAction
@@ -45,7 +46,7 @@ class PushRetry extends RowAction
     public function confirm()
     {
         return [
-            "您确定吗？"
+            '您确定吗？'
         ];
     }
 
@@ -63,6 +64,6 @@ class PushRetry extends RowAction
         $bingPush->update(['status' => BingPush::STATUS_PENDING, 'msg' => '']);
         PushJob::dispatch($bingPush);
         // 返回响应结果并刷新页面
-        return $this->response()->success("已委派队列！")->refresh();
+        return $this->response()->success('已委派队列！')->refresh();
     }
 }
