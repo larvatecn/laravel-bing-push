@@ -63,7 +63,7 @@ class BatchPushJob implements ShouldQueue
         $this->urls = $urls;
         if (function_exists('settings')) {
             $this->site = config('app.url');
-            $this->token = settings('system.bing_api_key');
+            $this->token = settings('bing.api_key');
         } else {
             $this->site = config('services.bing.site');
             $this->token = config('services.bing.site_token');

@@ -12,7 +12,7 @@ use Larva\Bing\Push\Jobs\PushJob;
 use Larva\Bing\Push\Models\BingPush;
 
 /**
- * PushRetry
+ * 批量重试
  *
  * @author Tongle Xu <xutongle@gmail.com>
  */

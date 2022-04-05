@@ -12,7 +12,8 @@ use Larva\Bing\Push\Jobs\BatchPushJob;
 use Larva\Bing\Push\Models\BingPush;
 
 /**
- * Class BatchPushCommand
+ * 批量推送
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 class BatchRetry extends Command

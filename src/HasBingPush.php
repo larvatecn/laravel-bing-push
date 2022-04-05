@@ -7,10 +7,12 @@
 
 namespace Larva\Bing\Push;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * 使用 Bing 推送
  *
- * @property \Illuminate\Database\Eloquent\Model $this
+ * @property Model $this
  * @author Tongle Xu <xutongle@gmail.com>
  */
 trait HasBingPush

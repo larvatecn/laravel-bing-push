@@ -33,13 +33,18 @@ class BingPush extends Model
     public const STATUS_PENDING = 0b0;//待推送
     public const STATUS_SUCCESS = 0b1;//正常
     public const STATUS_FAILURE = 0b10;//失败
+    public const STATUS_MAPS = [
+        self::STATUS_PENDING => '待推送',
+        self::STATUS_SUCCESS => '推送成功',
+        self::STATUS_FAILURE => '推送失败',
+    ];
 
     /**
      * 与模型关联的数据表。
      *
      * @var string
      */
-    protected $table = 'bing_push';
+    protected $table = 'bing_pushes';
 
     /**
      * 可以批量赋值的属性
@@ -56,7 +61,7 @@ class BingPush extends Model
      * @var array
      */
     protected $attributes = [
-        'status' => 0b0
+        'status' => self::STATUS_PENDING
     ];
 
     /**

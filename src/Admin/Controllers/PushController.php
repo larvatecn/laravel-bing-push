@@ -15,11 +15,12 @@ use Larva\Bing\Push\Models\BingPush;
 
 /**
  * 必应推送控制器
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 class PushController extends AdminController
 {
-    protected function title()
+    protected function title(): string
     {
         return '必应推送';
     }
@@ -34,11 +35,7 @@ class PushController extends AdminController
         return Grid::make(new BingPush(), function (Grid $grid) {
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-                $filter->equal('status', '推送状态')->select([
-                    BingPush::STATUS_PENDING => '待推送',
-                    BingPush::STATUS_SUCCESS => '推送成功',
-                    BingPush::STATUS_FAILURE => '推送失败',
-                ]);
+                $filter->equal('status', '推送状态')->select(BingPush::STATUS_MAPS);
                 //顶部筛选
                 $filter->scope('failure', '推送失败')->where('status', BingPush::STATUS_FAILURE);
                 $filter->scope('pending', '待推送')->where('status', BingPush::STATUS_PENDING);
@@ -48,11 +45,7 @@ class PushController extends AdminController
 
             $grid->column('id', 'ID')->sortable();
             $grid->column('url', 'Url')->link();
-            $grid->column('status', '状态')->using([
-                BingPush::STATUS_PENDING => '待推送',
-                BingPush::STATUS_SUCCESS => '推送成功',
-                BingPush::STATUS_FAILURE => '推送失败',
-            ])->dot([
+            $grid->column('status', '状态')->using(BingPush::STATUS_MAPS)->dot([
                 BingPush::STATUS_PENDING => 'info',
                 BingPush::STATUS_SUCCESS => 'success',
                 BingPush::STATUS_FAILURE => 'warning',
