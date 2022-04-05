@@ -34,13 +34,14 @@ class PushController extends AdminController
     {
         return Grid::make(new BingPush(), function (Grid $grid) {
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->equal('status', '推送状态')->select(BingPush::STATUS_MAPS);
+                $filter->expand();
+                $filter->panel();
+                $filter->equal('id')->width(2);
+                $filter->equal('status', '推送状态')->select(BingPush::STATUS_MAPS)->width(2);
                 //顶部筛选
                 $filter->scope('failure', '推送失败')->where('status', BingPush::STATUS_FAILURE);
                 $filter->scope('pending', '待推送')->where('status', BingPush::STATUS_PENDING);
             });
-            $grid->quickSearch(['id']);
             $grid->model()->orderBy('id', 'desc');
 
             $grid->column('id', 'ID')->sortable();
