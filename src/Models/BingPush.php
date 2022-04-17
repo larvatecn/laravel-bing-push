@@ -10,10 +10,13 @@ namespace Larva\Bing\Push\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
+use Larva\Bing\Push\Jobs\DeleteJob;
+use Larva\Bing\Push\Jobs\PushJob;
 
 /**
  * Bing推送
  * @property int $id ID
+ * @property string $site 要推送的站点
  * @property string $url 推送Url
  * @property int $status 推送状态
  * @property string $msg 返回消息
@@ -52,7 +55,7 @@ class BingPush extends Model
      * @var array
      */
     protected $fillable = [
-        'url', 'status', 'msg', 'failures', 'push_at'
+        'site', 'url', 'status', 'msg', 'failures', 'push_at'
     ];
 
     /**
@@ -61,8 +64,28 @@ class BingPush extends Model
      * @var array
      */
     protected $attributes = [
-        'status' => self::STATUS_PENDING
+        'status' => self::STATUS_PENDING,
+        'failures' => 0,
     ];
+
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (BingPush $model) {
+            $arr = parse_url($model->url);
+            $model->site = $arr['scheme'] . '://' . $arr['host'];
+        });
+        static::created(function (BingPush $model) {
+            PushJob::dispatch($model);
+        });
+        static::deleted(function (BingPush $model) {
+            DeleteJob::dispatch($model);
+        });
+    }
 
     /**
      * 为数组 / JSON 序列化准备日期。

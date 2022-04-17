@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Larva\Bing\Push\Models\BingPush;
@@ -30,22 +31,17 @@ class UpdateJob implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 2;
+    public int $tries = 2;
 
     /**
      * @var BingPush
      */
-    protected $bingPush;
+    protected BingPush $bingPush;
 
     /**
      * @var string
      */
-    protected $site;
-
-    /**
-     * @var string
-     */
-    protected $token;
+    protected string $token;
 
     /**
      * Create a new job instance.
@@ -56,10 +52,10 @@ class UpdateJob implements ShouldQueue
     {
         $this->bingPush = $bingPush;
         if (function_exists('settings')) {
-            $this->site = config('app.url');
+            $this->onQueue(settings('bing.queue', 'default'));
             $this->token = settings('bing.api_key');
         } else {
-            $this->site = config('services.bing.site');
+            $this->onQueue(config('services.bing.queue', 'default'));
             $this->token = config('services.bing.site_token');
         }
     }
@@ -69,7 +65,7 @@ class UpdateJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         try {
             $cacheKey = 'BingPush:ErrorCode';
@@ -79,9 +75,9 @@ class UpdateJob implements ShouldQueue
             } else {
                 $response = Http::acceptJson()
                     ->asJson()
-                    ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
+                    ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->bingPush->site, 'url' => $this->bingPush->url]);
                 if (isset($response['ErrorCode'])) {
-                    Cache::put($cacheKey, $response['ErrorCode'], now()->addDays());
+                    Cache::put($cacheKey, $response['ErrorCode'], Carbon::now()->addDays());
                     $this->bingPush->setFailure($response['ErrorCode'] . ':' . $response['Message']);
                 } else {
                     $this->bingPush->setSuccess();

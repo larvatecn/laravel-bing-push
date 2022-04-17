@@ -8,6 +8,8 @@
 namespace Larva\Bing\Push;
 
 use Illuminate\Support\ServiceProvider;
+use Larva\Bing\Push\Commands\Push;
+use Larva\Bing\Push\Commands\PushRetry;
 
 /**
  * Class BingPushServiceProvider
@@ -27,8 +29,6 @@ class BingPushServiceProvider extends ServiceProvider
             $this->commands('command.bing.push.retry');
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         }
-
-        \Larva\Bing\Push\Models\BingPush::observe(\Larva\Bing\Push\Observers\BingPushObserver::class);
     }
 
     /**
@@ -36,7 +36,7 @@ class BingPushServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerCommand();
     }
@@ -45,17 +45,14 @@ class BingPushServiceProvider extends ServiceProvider
      * Register the MNS queue command.
      * @return void
      */
-    private function registerCommand()
+    private function registerCommand(): void
     {
         $this->app->singleton('command.bing.push', function () {
-            return new \Larva\Bing\Push\Commands\Push();
+            return new Push();
         });
 
         $this->app->singleton('command.bing.push.retry', function () {
-            return new \Larva\Bing\Push\Commands\PushRetry();
-        });
-        $this->app->singleton('command.bing.push.batch.retry', function () {
-            return new \Larva\Bing\Push\Commands\BatchRetry();
+            return new PushRetry();
         });
     }
 }

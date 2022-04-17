@@ -17,12 +17,12 @@ composer require larva/laravel-bing-push -vv
 //add services.php
     'bing'=>[
         //bing站长平台
-        'site' => '',//网站域名HTTPS网站需要包含 https://
+        'queue' => '',//处理推送任务的队列
         'site_token' => '',//网站Token
     ]
 ```
 
 ## 使用
 ```php
-\Larva\Bing\Push\BingPush::push('https://www.aa.com');
+\Larva\Bing\Push\BingPush::push('https://www.aa.com/aaa.html');
 ```

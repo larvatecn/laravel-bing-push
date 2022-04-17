@@ -30,22 +30,17 @@ class DeleteJob implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 2;
+    public int $tries = 2;
 
     /**
      * @var BingPush
      */
-    protected $bingPush;
+    protected BingPush $bingPush;
 
     /**
      * @var string
      */
-    protected $site;
-
-    /**
-     * @var string
-     */
-    protected $token;
+    protected string $token;
 
     /**
      * Create a new job instance.
@@ -56,10 +51,10 @@ class DeleteJob implements ShouldQueue
     {
         $this->bingPush = $push;
         if (function_exists('settings')) {
-            $this->site = config('app.url');
+            $this->onQueue(settings('bing.queue', 'default'));
             $this->token = settings('bing.api_key');
         } else {
-            $this->site = config('services.bing.site');
+            $this->onQueue(config('services.bing.queue', 'default'));
             $this->token = config('services.bing.site_token');
         }
     }
@@ -74,9 +69,9 @@ class DeleteJob implements ShouldQueue
         try {
             Http::acceptJson()
                 ->asJson()
-                ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->site, 'url' => $this->bingPush->url]);
+                ->post("https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey={$this->token}", ['siteUrl' => $this->bingPush->site, 'url' => $this->bingPush->url]);
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getMessage(), $e->getTrace());
         }
     }
 }
