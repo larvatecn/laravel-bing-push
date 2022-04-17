@@ -1,8 +1,11 @@
 # laravel-bing-push
 Bing 自动推送
 
-[![Packagist](https://img.shields.io/packagist/l/larva/laravel-bing-push.svg?maxAge=2592000)](https://packagist.org/packages/larva/laravel-bing-push)
-[![Total Downloads](https://img.shields.io/packagist/dt/larva/laravel-bing-push.svg?style=flat-square)](https://packagist.org/packages/larva/laravel-bing-push)
+<p align="center">
+    <a href="https://packagist.org/packages/larva/laravel-bing-push"><img src="https://poser.pugx.org/larva/laravel-bing-push/v/stable" alt="Stable Version"></a>
+    <a href="https://packagist.org/packages/larva/laravel-bing-push"><img src="https://poser.pugx.org/larva/laravel-bing-push/downloads" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/larva/laravel-bing-push"><img src="https://poser.pugx.org/larva/laravel-bing-push/license" alt="License"></a>
+</p>
 
 
 ## Installation
