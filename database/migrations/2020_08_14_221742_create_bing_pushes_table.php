@@ -24,6 +24,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable()->comment('创建时间');
 
             $table->unique(['site', 'url']);
+            $table->comment('Bing推送记录表');
         });
     }
 
